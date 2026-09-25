@@ -1,5 +1,5 @@
-<?php require_once  '../includes/functions.php'; 
-require_once  '../login/verifica_user.php'?>
+<?php require_once  __DIR__ . '/../includes/functions.php'; 
+require_once  __DIR__ . '/../login/verifica_user.php'?>
 <!DOCTYPE html>
 <html lang="">
 
@@ -10,13 +10,13 @@ require_once  '../login/verifica_user.php'?>
 </head>
 
 <body>
-    <?php include  '../includes/header.php';?>
+    <?php include  __DIR__ . '/../includes/header.php';?>
     <main>
         <?php relatorio($conexao);?>
     </main>
 
     <?php
-    include  '../includes/footer.php'; ?>
+    include  __DIR__ . '/../includes/footer.php'; ?>
 </body>
 
 </html>

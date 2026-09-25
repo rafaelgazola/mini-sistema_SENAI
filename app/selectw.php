@@ -1,5 +1,5 @@
-<?php require_once  '../includes/functions.php';
-require_once  '../login/verifica_user.php'?>
+<?php require_once  __DIR__ . '/../includes/functions.php';
+require_once  __DIR__ . '/../login/verifica_user.php'?>
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
@@ -7,7 +7,7 @@ require_once  '../login/verifica_user.php'?>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DELETE</title>
 </head>
-<?php include  '../includes/header.php'; ?>
+<?php include  __DIR__ . '/../includes/header.php'; ?>
 <body>
     <h1>Veja um Aluno em especifico</h1>
     <main>
@@ -21,6 +21,6 @@ require_once  '../login/verifica_user.php'?>
             consultar($conexao, $_POST['id']);
         } ?>
     </main>
-<?php include  '../includes/footer.php'; ?>
+<?php include  __DIR__ . '/../includes/footer.php'; ?>
 </body>
 </html>

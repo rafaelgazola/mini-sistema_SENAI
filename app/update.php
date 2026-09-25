@@ -1,4 +1,4 @@
-<?php require_once  '../includes/functions.php';
+<?php require_once  __DIR__ . '/../includes/functions.php';
 require_once  '../login/verifica_user.php'?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -10,7 +10,7 @@ require_once  '../login/verifica_user.php'?>
 </head>
 
 <body>
-    <?php include  '../includes/header.php'; ?>
+    <?php include  __DIR__ . '/../includes/header.php'; ?>
     <main>
         <h1>Cadastro de alunos</h1>
         <form action="" method="post">
@@ -39,7 +39,7 @@ require_once  '../login/verifica_user.php'?>
         ?>
         
     </main>
-    <?php include  '../includes/footer.php'; ?>
+    <?php include  __DIR__ . '/../includes/footer.php'; ?>
 </body>
 
 </html>
