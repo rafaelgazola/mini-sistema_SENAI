@@ -1,4 +1,4 @@
-<?php require_once __DIR__ . '/../includes/functions.php'; ?>
+<?php require_once '../includes/functions.php'; ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php include __DIR__ . '/../includes/header.php'; ?>
+    <?php include '../includes/header.php'; ?>
     <main>
         <h1>Cadastro de LOGIN</h1>
         <form action="" method="post">
@@ -30,7 +30,7 @@
         ?>
 
     </main>
-    <?php include __DIR__ . '/../includes/footer.php'; ?>
+    <?php include '../includes/footer.php'; ?>
 </body>
 
 </html>

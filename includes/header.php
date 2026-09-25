@@ -3,7 +3,7 @@
         <div>
         <a href="/mini-sistema/index.php">inicio</a>
         <a href="/mini-sistema/app/create.php">cadastrar</a>
-        <a href="/mini-sistema/app/delete.php">Excluir</a>
+        <a href="/mini-sistema/app/delete.php">excluir</a>
         <a href="/mini-sistema/app/select.php">relatorio</a>
         <a href="/mini-sistema/app/selectw.php">consultar</a>
         <a href="/mini-sistema/app/update.php">atualizar</a>
