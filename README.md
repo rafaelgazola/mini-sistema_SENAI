@@ -14,7 +14,7 @@ Aplicação web em PHP para cadastrar, consultar, atualizar e excluir alunos. Ta
 8. [Funcionalidades](#funcionalidades)
 9. [Testes](#testes)
 10. [Autenticação](#autenticação)
-11. [Possíveis problemas](#possíveis-problemas)
+
 
 ## Sobre o projeto
 
@@ -70,26 +70,27 @@ A configuração atual aponta para o host `192.168.10.68`, o banco `escola` e o 
 
 O código utiliza as tabelas abaixo. Os tipos não estão declarados no repositório; os tipos da tabela são sugestões para um banco local compatível.
 
-### `usuarios`
+### Modelo Entidade-Relacionamento (MER)
 
-| Campo | Tipo sugerido | Uso |
-|---|---|---|
-| `id` | `SERIAL` | ID gravado na sessão |
-| `email` | `VARCHAR(255)` | Busca no login |
-| `senha` | `VARCHAR(255)` | Comparação no login |
+```mermaid
+erDiagram
+    USUARIOS {
+        serial id PK "Identificador único"
+        varchar email UK "E-mail para autenticação (único)"
+        varchar senha "Senha do usuário"
+    }
 
-### `alunos`
+    ALUNOS {
+        serial id PK "Identificador único"
+        varchar nome "Nome completo do aluno"
+        varchar turma "Turma ou classe"
+        date nascimento "Data de nascimento"
+        boolean ativo "Situação da matrícula (Ativo/Inativo)"
+        varchar email "E-mail de contato"
+    }
 
-| Campo | Tipo sugerido | Uso |
-|---|---|---|
-| `id` | `SERIAL` | ID das consultas e alterações |
-| `nome` | `VARCHAR(255)` | Nome |
-| `turma` | `VARCHAR(255)` | Turma |
-| `nascimento` | `DATE` | Data de nascimento |
-| `ativo` | `BOOLEAN` | Situação |
-| `email` | `VARCHAR(255)` | E-mail |
-
-Não há SQL, `UNIQUE`, `NOT NULL`, `DEFAULT` ou chave estrangeira definidos nos arquivos do projeto. Também não existe relacionamento físico entre `usuarios` e `alunos`.
+    USUARIOS ||--o{ ALUNOS : "gerencia"
+```
 
 ### SQL para criar o banco
 
@@ -122,15 +123,7 @@ Esse schema usa apenas as duas tabelas e as colunas consultadas pelo PHP. O repo
 
 É necessário ter o PostgreSQL instalado e o serviço ativo.
 
-### Opção 1: pgAdmin
-
-1. Abra o pgAdmin e conecte-se ao servidor PostgreSQL.
-2. Crie o banco `escola`.
-3. Abra o Query Tool desse banco.
-4. Execute os comandos `CREATE TABLE` deste README.
-5. Confira `usuarios` e `alunos` em `Schemas > public > Tables`; use `Refresh` se necessário.
-
-### Opção 2: `psql`
+### Opção 1: `psql`
 
 ```bash
 psql -U postgres
@@ -140,18 +133,9 @@ No prompt do PostgreSQL:
 
 ```sql
 CREATE DATABASE escola;
-\c escola
 ```
 
 Depois execute os comandos `CREATE TABLE` acima. Como não existe arquivo SQL no repositório, não há comando `psql -f` para este projeto.
-
-Para verificar o banco e as tabelas:
-
-```text
-\l
-\c escola
-\dt
-```
 
 ```sql
 SELECT * FROM usuarios;
@@ -180,12 +164,6 @@ php -v
 php -m
 ```
 
-No Windows, para filtrar as extensões:
-
-```bash
-php -m | findstr pgsql
-```
-
 `pdo_pgsql` precisa estar habilitado. `pgsql` também costuma aparecer quando o suporte PostgreSQL está instalado. Se não aparecer, verifique as extensões PostgreSQL no `php.ini` usado pelo PHP.
 
 ### 3. Iniciar o servidor
@@ -193,11 +171,10 @@ php -m | findstr pgsql
 O menu usa caminhos absolutos começando por `/mini-sistema`. Por isso, abra o terminal na pasta pai do projeto e execute:
 
 ```bash
-cd pasta-pai
 php -S localhost:8000
 ```
 
-Com a estrutura `pasta-pai/mini-sistema/`, acesse:
+Com a estrutura `/mini-sistema/`, acesse:
 
 ```text
 http://localhost:8000/mini-sistema/index.php
@@ -241,19 +218,3 @@ Não há filtros na listagem nem confirmação adicional antes da exclusão. Os 
 6. Exclua o ID em `app/delete.php` e confirme na listagem.
 7. Verifique os dados com `SELECT * FROM usuarios;` e `SELECT * FROM alunos;`.
 8. Faça logout e tente abrir uma página de `app/` para verificar o redirecionamento ao login.
-
-As funções do banco estão em `includes/functions.php`. Elas usam `prepare()`, `bindParam()` e `execute()` do PDO. Exceções `PDOException` e mensagens de sucesso são exibidas diretamente pelas funções.
-
-## Autenticação
-
-O login inicia uma sessão e grava o ID do usuário em `$_SESSION['id']`. Cada página de `app/` inclui `verifica_user.php`, que inicia a sessão caso necessário e exige essa variável. Sem ela, ocorre redirecionamento para `login/login.php`.
-
-O logout limpa `$_SESSION`, executa `session_destroy()` e retorna à página inicial. As senhas são gravadas e comparadas diretamente; o código não usa `password_hash()` nem `password_verify()`.
-
-## Possíveis problemas
-
-- **`could not find driver`:** habilite `pdo_pgsql` no PHP e confira com `php -m`.
-- **`connection refused`:** verifique se o PostgreSQL está ativo e se o host configurado está correto.
-- **`password authentication failed`:** confira o usuário e a senha em `database/conect.php`.
-- **`database "escola" does not exist`:** crie o banco ou ajuste `$dbname`.
-- **`relation "alunos" does not exist`:** crie as tabelas com o SQL deste README.
